@@ -12,8 +12,6 @@ public class Book {
     private String isbn;
     private int totalCopies;
     private int availableCopies;
-    private String genre;
-    private int borrowCount;
 
     // Additional metadata
     private String coverImage;
@@ -22,14 +20,12 @@ public class Book {
     public Book() {
     }
 
-    public Book(String title, String author, String isbn, int totalCopies, String genre) {
+    public Book(String title, String author, String isbn, int totalCopies) {
         this.title = title;
         this.author = author;
         this.isbn = isbn;
         this.totalCopies = totalCopies;
         this.availableCopies = totalCopies;
-        this.genre = genre;
-        this.borrowCount = 0;
     }
 
     public Book(String id, String title, String author, String isbn, int totalCopies, int availableCopies) {
@@ -103,25 +99,5 @@ public class Book {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public int getBorrowCount() {
-        return borrowCount;
-    }
-
-    public void setBorrowCount(int borrowCount) {
-        this.borrowCount = borrowCount;
-    }
-
-    public void incrementBorrowCount() {
-        this.borrowCount++;
     }
 }

@@ -1,3 +1,4 @@
+
 import Navbar from '../components/Navbar';
 import BookCard from '../components/BookCard';
 import { useBooks, useBorrowedBooks, useBorrowBook, useReturnBook } from '../hooks/useLibrary';
@@ -6,8 +7,6 @@ import { setActiveTab } from '../store/uiSlice';
 import { motion } from 'framer-motion';
 import { FaBookOpen, FaClipboardList } from 'react-icons/fa';
 import { toast, Toaster } from 'react-hot-toast';
-import Recommendations from '../components/Recommendations';
-import TrendingBooks from '../components/TrendingBooks';
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -83,36 +82,21 @@ const Home = () => {
                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
               </div>
             ) : (
-              <>
-                <Recommendations />
-                <TrendingBooks />
-
-                <div className="flex items-center justify-between mb-8 mt-16">
-                  <h2 className="text-3xl font-bold text-white flex items-center gap-3">
-                    <FaBookOpen className="text-blue-500" />
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-                      Explore All Books
-                    </span>
-                  </h2>
-                  <div className="h-px flex-grow mx-6 bg-gray-800"></div>
-                </div>
-
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-                >
-                  {books?.map((book: any) => (
-                    <BookCard
-                      key={book.id}
-                      book={book}
-                      actionType="borrow"
-                      onAction={() => handleBorrow(book.id)}
-                      disabled={borrowMutation.isPending || book.availableCopies === 0}
-                    />
-                  ))}
-                </motion.div>
-              </>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+              >
+                {books?.map((book: any) => (
+                  <BookCard
+                    key={book.id}
+                    book={book}
+                    actionType="borrow"
+                    onAction={() => handleBorrow(book.id)}
+                    disabled={borrowMutation.isPending || book.availableCopies === 0}
+                  />
+                ))}
+              </motion.div>
             )
           ) : (
             loadingBorrowed ? (

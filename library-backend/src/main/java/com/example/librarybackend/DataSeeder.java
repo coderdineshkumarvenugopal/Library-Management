@@ -27,11 +27,11 @@ public class DataSeeder {
     CommandLineRunner initDatabase() {
         return args -> {
             if (bookRepository.count() == 0) {
-                bookRepository.save(new Book("The Great Gatsby", "F. Scott Fitzgerald", "9780743273565", 5, "Classic"));
-                bookRepository.save(new Book("1984", "George Orwell", "9780451524935", 3, "Dystopian"));
-                bookRepository.save(new Book("To Kill a Mockingbird", "Harper Lee", "9780061120084", 2, "Classic"));
-                bookRepository.save(new Book("Pride and Prejudice", "Jane Austen", "9781503290563", 4, "Romance"));
-                bookRepository.save(new Book("The Catcher in the Rye", "J.D. Salinger", "9780316769488", 3, "Classic"));
+                bookRepository.save(new Book("The Great Gatsby", "F. Scott Fitzgerald", "9780743273565", 5));
+                bookRepository.save(new Book("1984", "George Orwell", "9780451524935", 3));
+                bookRepository.save(new Book("To Kill a Mockingbird", "Harper Lee", "9780061120084", 2));
+                bookRepository.save(new Book("Pride and Prejudice", "Jane Austen", "9781503290563", 4));
+                bookRepository.save(new Book("The Catcher in the Rye", "J.D. Salinger", "9780316769488", 3));
             }
 
             if (userRepository.count() == 0) {

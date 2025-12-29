@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './components/Login';
 import Register from './components/Register';
 import Home from './pages/Home';
-import AnalyticsDashboard from './components/AnalyticsDashboard';
 import { useAppSelector } from './hooks/redux';
 
 const PrivateRoute = ({ children }: { children: React.ReactElement }) => {
@@ -21,14 +20,6 @@ function App() {
                     element={
                         <PrivateRoute>
                             <Home />
-                        </PrivateRoute>
-                    }
-                />
-                <Route
-                    path="/analytics"
-                    element={
-                        <PrivateRoute>
-                            <AnalyticsDashboard />
                         </PrivateRoute>
                     }
                 />

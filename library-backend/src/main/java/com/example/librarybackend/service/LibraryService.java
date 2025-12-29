@@ -17,12 +17,4 @@ public interface LibraryService {
     void returnBook(Long userId, String bookId);
 
     List<Book> getBorrowedBooks(Long userId);
-
-    List<Book> getRecommendations(Long userId);
-
-    java.util.List<java.util.Map<String, Object>> getAnalyticsTrends();
-
-    java.util.List<java.util.Map<String, Object>> getTopUsers();
-
-    java.util.List<java.util.Map<String, Object>> getRecentActivity();
 }

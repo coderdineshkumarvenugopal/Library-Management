@@ -9,6 +9,4 @@ import java.util.Optional;
 @Repository
 public interface BookRepository extends MongoRepository<Book, String> {
     Optional<Book> findByIsbn(String isbn);
-
-    java.util.List<Book> findAllByGenreOrderByBorrowCountDesc(String genre);
 }
