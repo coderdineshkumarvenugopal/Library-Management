@@ -18,7 +18,7 @@ const Register = () => {
         e.preventDefault();
         setError('');
         try {
-            const response = await api.post('/auth/register', { name, email, password });
+            const response = await api.post('/api/auth/register', { name, email, password });
             dispatch(loginSuccess({ token: response.data.token, user: response.data }));
             navigate('/');
         } catch (err: any) {

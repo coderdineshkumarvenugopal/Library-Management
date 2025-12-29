@@ -3,7 +3,7 @@ import type { Book } from '../types';
 import { store } from '../store/store';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8080/api',
+    baseURL: 'http://localhost:8080',
     headers: {
         'Content-Type': 'application/json',
     },
@@ -19,20 +19,50 @@ api.interceptors.request.use((config) => {
 });
 
 export const getBooks = async (): Promise<Book[]> => {
-    const response = await api.get('/books');
+    const response = await api.get('/api/books');
     return response.data;
 };
 
 export const borrowBook = async (userId: number, bookId: string): Promise<void> => {
-    await api.post(`/users/${userId}/borrow/${bookId}`);
+    await api.post(`/api/users/${userId}/borrow/${bookId}`);
 };
 
 export const returnBook = async (userId: number, bookId: string): Promise<void> => {
-    await api.post(`/users/${userId}/return/${bookId}`);
+    await api.post(`/api/users/${userId}/return/${bookId}`);
 };
 
 export const getBorrowedBooks = async (userId: number): Promise<Book[]> => {
-    const response = await api.get(`/users/${userId}/borrowed`);
+    const response = await api.get(`/api/users/${userId}/borrowed`);
+    return response.data;
+};
+
+export const getTrendingBooks = async (): Promise<Book[]> => {
+    const response = await api.get('/api/analytics/trending');
+    return response.data;
+};
+
+export const getAnalyticsStats = async (): Promise<any> => {
+    const response = await api.get('/api/analytics/stats');
+    return response.data;
+};
+
+export const getRecommendations = async (userId: number): Promise<Book[]> => {
+    const response = await api.get(`/api/analytics/recommendations/${userId}`);
+    return response.data;
+};
+
+export const getAnalyticsTrends = async (): Promise<any[]> => {
+    const response = await api.get('/api/analytics/trends');
+    return response.data;
+};
+
+export const getTopUsers = async (): Promise<any[]> => {
+    const response = await api.get('/api/analytics/top-users');
+    return response.data;
+};
+
+export const getRecentActivity = async (): Promise<any[]> => {
+    const response = await api.get('/api/analytics/activity');
     return response.data;
 };
 

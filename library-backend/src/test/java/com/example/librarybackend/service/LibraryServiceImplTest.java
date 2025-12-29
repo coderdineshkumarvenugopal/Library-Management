@@ -42,7 +42,7 @@ class LibraryServiceImplTest {
         user.setId(1L);
         user.setName("John Doe");
 
-        book = new Book("Test Book", "Author", "12345", 5);
+        book = new Book("Test Book", "Author", "12345", 5, "Fiction");
         book.setId("book1");
     }
 
@@ -50,14 +50,15 @@ class LibraryServiceImplTest {
     void borrowBook_Success() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(bookRepository.findById("book1")).thenReturn(Optional.of(book));
-        when(borrowingRecordRepository.countByUserAndIsReturnedFalse(user)).thenReturn(0L);
-        when(borrowingRecordRepository.existsByUserAndBookIdAndIsReturnedFalse(user, "book1")).thenReturn(false);
+        when(borrowingRecordRepository.countByUserAndReturnedFalse(user)).thenReturn(0L);
+        when(borrowingRecordRepository.existsByUserAndBookIdAndReturnedFalse(user, "book1")).thenReturn(false);
 
         libraryService.borrowBook(1L, "book1");
 
         verify(bookRepository).save(book);
         verify(borrowingRecordRepository).save(any(BorrowingRecord.class));
         assertEquals(4, book.getAvailableCopies());
+        assertEquals(1, book.getBorrowCount());
     }
 
     @Test
@@ -65,6 +66,8 @@ class LibraryServiceImplTest {
         book.setAvailableCopies(0);
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(bookRepository.findById("book1")).thenReturn(Optional.of(book));
+        when(borrowingRecordRepository.countByUserAndReturnedFalse(user)).thenReturn(0L);
+        when(borrowingRecordRepository.existsByUserAndBookIdAndReturnedFalse(user, "book1")).thenReturn(false);
 
         assertThrows(RuntimeException.class, () -> libraryService.borrowBook(1L, "book1"));
 
@@ -76,7 +79,7 @@ class LibraryServiceImplTest {
     void borrowBook_Fail_LimitExceeded() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(bookRepository.findById("book1")).thenReturn(Optional.of(book));
-        when(borrowingRecordRepository.countByUserAndIsReturnedFalse(user)).thenReturn(2L);
+        when(borrowingRecordRepository.countByUserAndReturnedFalse(user)).thenReturn(2L);
 
         assertThrows(RuntimeException.class, () -> libraryService.borrowBook(1L, "book1"));
     }
@@ -85,27 +88,26 @@ class LibraryServiceImplTest {
     void borrowBook_Fail_AlreadyBorrowed() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(bookRepository.findById("book1")).thenReturn(Optional.of(book));
-        when(borrowingRecordRepository.countByUserAndIsReturnedFalse(user)).thenReturn(1L);
-        when(borrowingRecordRepository.existsByUserAndBookIdAndIsReturnedFalse(user, "book1")).thenReturn(true);
+        when(borrowingRecordRepository.countByUserAndReturnedFalse(user)).thenReturn(1L);
+        when(borrowingRecordRepository.existsByUserAndBookIdAndReturnedFalse(user, "book1")).thenReturn(true);
 
         assertThrows(RuntimeException.class, () -> libraryService.borrowBook(1L, "book1"));
     }
 
     @Test
     void returnBook_Success() {
-        book.setAvailableCopies(4);
         BorrowingRecord record = new BorrowingRecord(user, "book1", LocalDateTime.now());
 
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(bookRepository.findById("book1")).thenReturn(Optional.of(book));
-        when(borrowingRecordRepository.findByUserAndBookIdAndIsReturnedFalse(user, "book1"))
+        when(borrowingRecordRepository.findByUserAndBookIdAndReturnedFalse(user, "book1"))
                 .thenReturn(Optional.of(record));
 
         libraryService.returnBook(1L, "book1");
 
         assertTrue(record.isReturned());
         assertNotNull(record.getReturnedAt());
-        assertEquals(5, book.getAvailableCopies());
         verify(bookRepository).save(book);
+        assertEquals(6, book.getAvailableCopies());
     }
 }

@@ -23,4 +23,8 @@ public interface BorrowingRecordRepository extends JpaRepository<BorrowingRecord
     List<BorrowingRecord> findByUserAndReturnedFalse(User user);
 
     List<BorrowingRecord> findByUserIdAndReturnedFalse(Long userId);
+
+    List<BorrowingRecord> findByUser(User user);
+
+    List<BorrowingRecord> findAllByOrderByBorrowedAtDesc();
 }

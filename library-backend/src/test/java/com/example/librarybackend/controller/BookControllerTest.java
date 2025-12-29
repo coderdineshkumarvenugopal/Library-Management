@@ -2,12 +2,12 @@ package com.example.librarybackend.controller;
 
 import com.example.librarybackend.domain.Book;
 import com.example.librarybackend.service.LibraryService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.librarybackend.security.JwtService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -27,9 +27,13 @@ class BookControllerTest {
     @MockBean
     private LibraryService libraryService;
 
+    @MockBean
+    private JwtService jwtService;
+
     @Test
+    @WithMockUser
     void shouldReturnAllBooks() throws Exception {
-        Book book = new Book("Title", "Author", "ISBN", 5);
+        Book book = new Book("Title", "Author", "123456", 5, "Fiction");
         List<Book> books = Arrays.asList(book);
 
         given(libraryService.getAllBooks()).willReturn(books);

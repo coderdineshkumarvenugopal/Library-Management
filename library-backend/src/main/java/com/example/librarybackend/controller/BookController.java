@@ -3,7 +3,6 @@ package com.example.librarybackend.controller;
 import com.example.librarybackend.domain.Book;
 import com.example.librarybackend.service.LibraryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
