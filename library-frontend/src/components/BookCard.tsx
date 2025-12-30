@@ -13,21 +13,37 @@ const BookCard = ({ book, actionType, onAction, disabled }: BookCardProps) => {
     return (
         <motion.div
             whileHover={{ y: -5 }}
-            className="flex flex-col bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl hover:border-blue-500/30 transition-all duration-300 group"
+            className="flex flex-col bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700/50 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl hover:border-blue-500/30 transition-all duration-300 group"
         >
-            <div className="h-48 bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center relative overflow-hidden">
-                {/* Fallback pattern if no image */}
-                <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-400 via-gray-900 to-black"></div>
-                <h3 className="text-4xl font-serif text-gray-600 opacity-20 select-none group-hover:scale-110 transition-transform duration-500">
-                    {book.title.substring(0, 1)}
-                </h3>
+            <div className="h-64 bg-gray-100 dark:bg-gradient-to-br dark:from-gray-700 dark:to-gray-900 flex items-center justify-center relative overflow-hidden">
+                {book.coverImage ? (
+                    <img
+                        src={book.coverImage}
+                        alt={book.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                ) : (
+                    <>
+                        {/* Fallback pattern if no image */}
+                        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-400 via-gray-900 to-black"></div>
+                        <h3 className="text-4xl font-serif text-gray-400 dark:text-gray-600 opacity-20 select-none group-hover:scale-110 transition-transform duration-500">
+                            {book.title.substring(0, 1)}
+                        </h3>
+                    </>
+                )}
+
+                <div className="absolute top-3 right-3">
+                    <span className="px-2 py-1 rounded-md text-[10px] uppercase font-bold tracking-widest bg-black/50 text-white backdrop-blur-md border border-white/10">
+                        {book.genre}
+                    </span>
+                </div>
             </div>
 
             <div className="p-5 flex-1 flex flex-col">
-                <h3 className="text-xl font-bold text-white mb-1 line-clamp-1" title={book.title}>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1 line-clamp-1" title={book.title}>
                     {book.title}
                 </h3>
-                <p className="text-gray-400 text-sm mb-4">{book.author}</p>
+                <p className="text-gray-500 dark:text-gray-400 text-xs mb-4">{book.author}</p>
 
                 <div className="mt-auto">
                     <div className="flex justify-between items-center text-xs text-gray-500 mb-4 h-6">

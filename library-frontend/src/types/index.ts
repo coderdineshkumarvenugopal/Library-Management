@@ -5,6 +5,8 @@ export interface Book {
     isbn: string;
     totalCopies: number;
     availableCopies: number;
+    genre: string;
+    borrowCount: number;
     coverImage?: string;
     description?: string;
 }

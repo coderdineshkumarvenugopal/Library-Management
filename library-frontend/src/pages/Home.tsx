@@ -1,4 +1,3 @@
-import Navbar from '../components/Navbar';
 import BookCard from '../components/BookCard';
 import { useBooks, useBorrowedBooks, useBorrowBook, useReturnBook } from '../hooks/useLibrary';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
@@ -36,17 +35,16 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white font-sans selection:bg-purple-500/30">
+    <div className="selection:bg-blue-500/30">
       <Toaster position="top-right" />
-      <Navbar />
 
-      <main className="container mx-auto px-6 py-8">
+      <main className="">
         {/* Hero Section */}
         <header className="mb-12 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 animate-gradient">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-500 dark:to-pink-500 animate-gradient">
             Discover Your Next Adventure
           </h1>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+          <p className="text-gray-500 dark:text-gray-400 text-lg max-w-2xl mx-auto">
             Access thousands of books instantly from our premium library collection.
           </p>
         </header>
@@ -57,7 +55,7 @@ const Home = () => {
             onClick={() => dispatch(setActiveTab('catalog'))}
             className={`flex items-center space-x-2 px-6 py-3 rounded-full transition-all duration-300 font-medium ${activeTab === 'catalog'
               ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-purple-500/25 scale-105'
-              : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+              : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
               }`}
           >
             <FaBookOpen />
@@ -67,7 +65,7 @@ const Home = () => {
             onClick={() => dispatch(setActiveTab('my-books'))}
             className={`flex items-center space-x-2 px-6 py-3 rounded-full transition-all duration-300 font-medium ${activeTab === 'my-books'
               ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-purple-500/25 scale-105'
-              : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+              : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
               }`}
           >
             <FaClipboardList />
@@ -88,13 +86,13 @@ const Home = () => {
                 <TrendingBooks />
 
                 <div className="flex items-center justify-between mb-8 mt-16">
-                  <h2 className="text-3xl font-bold text-white flex items-center gap-3">
-                    <FaBookOpen className="text-blue-500" />
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
+                    <FaBookOpen className="text-blue-600 dark:text-blue-500" />
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-500">
                       Explore All Books
                     </span>
                   </h2>
-                  <div className="h-px flex-grow mx-6 bg-gray-800"></div>
+                  <div className="h-px flex-grow mx-6 bg-gray-200 dark:bg-gray-800"></div>
                 </div>
 
                 <motion.div

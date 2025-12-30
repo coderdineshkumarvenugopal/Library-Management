@@ -3,6 +3,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Home from './pages/Home';
 import AnalyticsDashboard from './components/AnalyticsDashboard';
+import MainLayout from './components/MainLayout';
 import { useAppSelector } from './hooks/redux';
 
 const PrivateRoute = ({ children }: { children: React.ReactElement }) => {
@@ -20,7 +21,9 @@ function App() {
                     path="/"
                     element={
                         <PrivateRoute>
-                            <Home />
+                            <MainLayout>
+                                <Home />
+                            </MainLayout>
                         </PrivateRoute>
                     }
                 />
@@ -28,7 +31,9 @@ function App() {
                     path="/analytics"
                     element={
                         <PrivateRoute>
-                            <AnalyticsDashboard />
+                            <MainLayout>
+                                <AnalyticsDashboard />
+                            </MainLayout>
                         </PrivateRoute>
                     }
                 />

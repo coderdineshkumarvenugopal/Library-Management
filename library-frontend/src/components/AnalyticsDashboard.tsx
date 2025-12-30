@@ -4,6 +4,7 @@ import {
     PieChart, Pie, Cell, Legend
 } from 'recharts';
 import { useAnalyticsStats, useAnalyticsTrends, useTopUsers, useRecentActivity } from '../hooks/useLibrary';
+import { useAppSelector } from '../hooks/redux';
 import { motion } from 'framer-motion';
 import { FaBook, FaUsers, FaArrowUp, FaArrowDown, FaHistory, FaTrophy } from 'react-icons/fa';
 
@@ -14,33 +15,35 @@ const AnalyticsDashboard: React.FC = () => {
     const { data: trends } = useAnalyticsTrends();
     const { data: topUsers } = useTopUsers();
     const { data: activity } = useRecentActivity();
+    const { theme } = useAppSelector((state) => state.ui);
+    const isDark = theme === 'dark';
 
     const pieData = stats?.genreDistribution
         ? Object.entries(stats.genreDistribution).map(([name, value]) => ({ name, value }))
         : [];
 
     return (
-        <div className="space-y-8 p-6 bg-gray-950 min-h-screen text-white">
-            <header className="flex justify-between items-center mb-10">
+        <div className="space-y-8">
+            <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
                 <div>
-                    <h1 className="text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+                    <h1 className="text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-500">
                         Library Insights
                     </h1>
-                    <p className="text-gray-400 mt-2">Real-time system health and user engagement</p>
+                    <p className="text-gray-500 dark:text-gray-400 mt-2">Real-time system health and user engagement</p>
                 </div>
-                <div className="flex gap-4">
-                    <div className="bg-gray-900/50 backdrop-blur-xl border border-white/10 p-3 rounded-2xl flex items-center gap-3">
-                        <div className="bg-blue-500/20 p-2 rounded-lg"><FaBook className="text-blue-400" /></div>
+                <div className="flex flex-wrap gap-4">
+                    <div className="bg-gray-100/50 dark:bg-gray-900/50 backdrop-blur-xl border border-gray-200 dark:border-white/10 p-4 rounded-2xl flex items-center gap-4 transition-colors">
+                        <div className="bg-blue-600/10 dark:bg-blue-500/20 p-3 rounded-xl"><FaBook className="text-blue-600 dark:text-blue-400 text-lg" /></div>
                         <div>
-                            <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Total Books</p>
-                            <p className="text-xl font-bold">{stats?.totalBooks || 0}</p>
+                            <p className="text-[10px] text-gray-500 dark:text-gray-500 uppercase font-bold tracking-widest">Total Books</p>
+                            <p className="text-2xl font-black text-gray-900 dark:text-white">{stats?.totalBooks || 0}</p>
                         </div>
                     </div>
-                    <div className="bg-gray-900/50 backdrop-blur-xl border border-white/10 p-3 rounded-2xl flex items-center gap-3">
-                        <div className="bg-purple-500/20 p-2 rounded-lg"><FaUsers className="text-purple-400" /></div>
+                    <div className="bg-gray-100/50 dark:bg-gray-900/50 backdrop-blur-xl border border-gray-200 dark:border-white/10 p-4 rounded-2xl flex items-center gap-4 transition-colors">
+                        <div className="bg-purple-600/10 dark:bg-purple-500/20 p-3 rounded-xl"><FaUsers className="text-purple-600 dark:text-purple-400 text-lg" /></div>
                         <div>
-                            <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Total Users</p>
-                            <p className="text-xl font-bold">{stats?.totalUsers || 0}</p>
+                            <p className="text-[10px] text-gray-500 dark:text-gray-500 uppercase font-bold tracking-widest">Total Users</p>
+                            <p className="text-2xl font-black text-gray-900 dark:text-white">{stats?.totalUsers || 0}</p>
                         </div>
                     </div>
                 </div>
@@ -51,10 +54,10 @@ const AnalyticsDashboard: React.FC = () => {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="lg:col-span-2 bg-gray-900/50 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl"
+                    className="lg:col-span-2 bg-white dark:bg-gray-900/50 backdrop-blur-xl p-6 rounded-3xl border border-gray-200 dark:border-white/5 shadow-xl transition-colors"
                 >
                     <div className="flex items-center justify-between mb-8">
-                        <h2 className="text-xl font-bold flex items-center gap-2">
+                        <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
                             Activity Trends
                         </h2>
                         <div className="flex gap-4 text-xs">
@@ -75,12 +78,18 @@ const AnalyticsDashboard: React.FC = () => {
                                         <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0} />
                                     </linearGradient>
                                 </defs>
-                                <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" vertical={false} />
-                                <XAxis dataKey="date" stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
-                                <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
+                                <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "#ffffff10" : "#00000010"} vertical={false} />
+                                <XAxis dataKey="date" stroke={isDark ? "#94a3b8" : "#64748b"} fontSize={12} tickLine={false} axisLine={false} />
+                                <YAxis stroke={isDark ? "#94a3b8" : "#64748b"} fontSize={12} tickLine={false} axisLine={false} />
                                 <Tooltip
-                                    contentStyle={{ backgroundColor: '#0f172a', border: '1px solid #ffffff10', borderRadius: '12px' }}
-                                    itemStyle={{ fontSize: '12px' }}
+                                    contentStyle={{
+                                        backgroundColor: isDark ? '#0f172a' : '#ffffff',
+                                        border: isDark ? '1px solid #ffffff10' : '1px solid #e2e8f0',
+                                        borderRadius: '12px',
+                                        color: isDark ? '#f8fafc' : '#1e293b'
+                                    }}
+                                    itemStyle={{ fontSize: '12px', color: isDark ? '#f8fafc' : '#1e293b' }}
+                                    labelStyle={{ fontWeight: 'bold', marginBottom: '4px', color: isDark ? '#f8fafc' : '#1e293b' }}
                                 />
                                 <Area type="monotone" dataKey="borrows" stroke="#3B82F6" strokeWidth={3} fillOpacity={1} fill="url(#colorBorrows)" />
                                 <Area type="monotone" dataKey="returns" stroke="#8B5CF6" strokeWidth={3} fillOpacity={1} fill="url(#colorReturns)" />
@@ -93,9 +102,9 @@ const AnalyticsDashboard: React.FC = () => {
                 <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="bg-gray-900/50 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl"
+                    className="bg-white dark:bg-gray-900/50 backdrop-blur-xl p-6 rounded-3xl border border-gray-200 dark:border-white/5 shadow-xl transition-colors"
                 >
-                    <h2 className="text-xl font-bold mb-8">Genre Distribution</h2>
+                    <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-8">Genre Distribution</h2>
                     <div className="h-[300px]">
                         <ResponsiveContainer width="100%" height="100%">
                             <PieChart>
@@ -111,7 +120,13 @@ const AnalyticsDashboard: React.FC = () => {
                                     ))}
                                 </Pie>
                                 <Tooltip
-                                    contentStyle={{ backgroundColor: '#0f172a', border: '1px solid #ffffff10', borderRadius: '12px' }}
+                                    contentStyle={{
+                                        backgroundColor: isDark ? '#0f172a' : '#ffffff',
+                                        border: isDark ? '1px solid #ffffff10' : '1px solid #e2e8f0',
+                                        borderRadius: '12px',
+                                        color: isDark ? '#f8fafc' : '#1e293b'
+                                    }}
+                                    itemStyle={{ fontSize: '12px', color: isDark ? '#f8fafc' : '#1e293b' }}
                                 />
                                 <Legend verticalAlign="bottom" height={36} />
                             </PieChart>
@@ -125,20 +140,20 @@ const AnalyticsDashboard: React.FC = () => {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-gray-900/50 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl"
+                    className="bg-white dark:bg-gray-900/50 backdrop-blur-xl p-6 rounded-3xl border border-gray-200 dark:border-white/5 shadow-xl transition-colors"
                 >
-                    <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
+                    <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                         <FaTrophy className="text-yellow-500" /> Leaderboard
                     </h2>
                     <div className="space-y-4">
                         {topUsers?.map((u, i) => (
-                            <div key={u.userId} className="flex items-center justify-between p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition">
+                            <div key={u.userId} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-white/5 rounded-2xl hover:bg-gray-100 dark:hover:bg-white/10 transition">
                                 <div className="flex items-center gap-4">
-                                    <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center font-bold text-sm">
+                                    <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center font-bold text-sm text-white">
                                         {i + 1}
                                     </div>
                                     <div>
-                                        <p className="font-bold">{u.userName}</p>
+                                        <p className="font-bold text-gray-900 dark:text-white">{u.userName}</p>
                                         <p className="text-xs text-gray-500">User ID: #{u.userId}</p>
                                     </div>
                                 </div>
@@ -155,10 +170,10 @@ const AnalyticsDashboard: React.FC = () => {
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="bg-gray-900/50 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl max-h-[500px] overflow-hidden flex flex-col"
+                    className="bg-white dark:bg-gray-900/50 backdrop-blur-xl p-6 rounded-3xl border border-gray-200 dark:border-white/5 shadow-xl max-h-[500px] overflow-hidden flex flex-col transition-colors"
                 >
-                    <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-                        <FaHistory className="text-indigo-400" /> System Activity
+                    <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+                        <FaHistory className="text-indigo-600 dark:text-indigo-400" /> System Activity
                     </h2>
                     <div className="space-y-6 overflow-y-auto pr-2 custom-scrollbar">
                         {activity?.map((act, i) => (
@@ -169,9 +184,9 @@ const AnalyticsDashboard: React.FC = () => {
                                 <div className="flex justify-between items-start">
                                     <div>
                                         <p className="text-sm">
-                                            <span className="font-bold text-white">{act.userName}</span>
-                                            <span className="text-gray-400"> {act.type === 'BORROW' ? 'borrowed' : 'returned'} </span>
-                                            <span className="font-medium text-blue-400">{act.bookTitle}</span>
+                                            <span className="font-bold text-gray-900 dark:text-white">{act.userName}</span>
+                                            <span className="text-gray-500 dark:text-gray-400"> {act.type === 'BORROW' ? 'borrowed' : 'returned'} </span>
+                                            <span className="font-medium text-blue-600 dark:text-blue-400">{act.bookTitle}</span>
                                         </p>
                                         <p className="text-[10px] text-gray-500 mt-1">
                                             {new Date(act.timestamp).toLocaleString()}
