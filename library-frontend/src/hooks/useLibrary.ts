@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getBooks, getBorrowedBooks, borrowBook, returnBook, getTrendingBooks, getAnalyticsStats, getRecommendations, getAnalyticsTrends, getTopUsers, getRecentActivity } from '../api/axiosConfig';
+import { getBooks, getBorrowedBooks, borrowBook, returnBook, getTrendingBooks, getAnalyticsStats, getRecommendations, getAnalyticsTrends, getTopUsers, getRecentActivity, searchBooks, getRandomBook } from '../api/axiosConfig';
 
 export const useBooks = () => {
     return useQuery({
@@ -12,6 +12,7 @@ export const useBorrowedBooks = (userId: number) => {
     return useQuery({
         queryKey: ['borrowedBooks', userId],
         queryFn: () => getBorrowedBooks(userId),
+        enabled: !!userId,
     });
 };
 
@@ -55,6 +56,22 @@ export const useRecommendations = (userId: number | null) => {
         queryKey: ['recommendations', userId],
         queryFn: () => getRecommendations(userId!),
         enabled: !!userId,
+    });
+};
+
+export const useSearchBooks = (query: string) => {
+    return useQuery({
+        queryKey: ['searchBooks', query],
+        queryFn: () => searchBooks(query),
+        enabled: query.length >= 2,
+    });
+};
+
+export const useRandomBook = (mood: string | null) => {
+    return useQuery({
+        queryKey: ['randomBook', mood],
+        queryFn: () => getRandomBook(mood!),
+        enabled: !!mood,
     });
 };
 

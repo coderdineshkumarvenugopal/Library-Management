@@ -144,6 +144,54 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
+    public List<Book> searchBooks(String query) {
+        if (query == null || query.trim().isEmpty()) {
+            return bookRepository.findAll();
+        }
+
+        String trimmedQuery = query.trim();
+        java.util.Set<Book> results = new java.util.HashSet<>();
+        results.addAll(bookRepository.findByTitleContainingIgnoreCase(trimmedQuery));
+        results.addAll(bookRepository.findByAuthorContainingIgnoreCase(trimmedQuery));
+        results.addAll(bookRepository.findByGenreContainingIgnoreCase(trimmedQuery));
+
+        return new java.util.ArrayList<>(results);
+    }
+
+    @Override
+    public Book getRandomBookByGenre(String mood) {
+        String genre = mapMoodToGenre(mood);
+        List<Book> books = bookRepository.findByGenreContainingIgnoreCase(genre);
+
+        if (books.isEmpty()) {
+            books = bookRepository.findAll();
+        }
+
+        if (books.isEmpty())
+            return null;
+
+        int randomIndex = (int) (Math.random() * books.size());
+        return books.get(randomIndex);
+    }
+
+    private String mapMoodToGenre(String mood) {
+        if (mood == null)
+            return "Classic";
+        switch (mood.toLowerCase()) {
+            case "happy":
+                return "Self-Help";
+            case "adventurous":
+                return "Sci-Fi";
+            case "thoughtful":
+                return "Classic";
+            case "learning":
+                return "Technology";
+            default:
+                return "Classic";
+        }
+    }
+
+    @Override
     public java.util.List<java.util.Map<String, Object>> getAnalyticsTrends() {
         java.util.List<BorrowingRecord> allRecords = borrowingRecordRepository.findAll();
         java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd");

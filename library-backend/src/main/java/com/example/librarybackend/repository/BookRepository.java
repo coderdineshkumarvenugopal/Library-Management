@@ -11,4 +11,10 @@ public interface BookRepository extends MongoRepository<Book, String> {
     Optional<Book> findByIsbn(String isbn);
 
     java.util.List<Book> findAllByGenreOrderByBorrowCountDesc(String genre);
+
+    java.util.List<Book> findByTitleContainingIgnoreCase(String title);
+
+    java.util.List<Book> findByAuthorContainingIgnoreCase(String author);
+
+    java.util.List<Book> findByGenreContainingIgnoreCase(String genre);
 }

@@ -66,4 +66,14 @@ export const getRecentActivity = async (): Promise<any[]> => {
     return response.data;
 };
 
+export const searchBooks = async (query: string): Promise<Book[]> => {
+    const response = await api.get(`/api/books/search?query=${encodeURIComponent(query)}`);
+    return response.data;
+};
+
+export const getRandomBook = async (mood: string): Promise<Book | null> => {
+    const response = await api.get(`/api/books/random?mood=${encodeURIComponent(mood)}`);
+    return response.data;
+};
+
 export default api;

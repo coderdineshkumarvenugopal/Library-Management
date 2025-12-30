@@ -23,7 +23,7 @@ const Navbar = () => {
                         <FaBook className="text-white text-xl" />
                     </div>
                     <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-500">
-                        LMS Premium
+                        Library Management System
                     </h1>
                 </Link>
 

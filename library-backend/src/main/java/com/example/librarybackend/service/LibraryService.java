@@ -20,6 +20,10 @@ public interface LibraryService {
 
     List<Book> getRecommendations(Long userId);
 
+    List<Book> searchBooks(String query);
+
+    Book getRandomBookByGenre(String genre);
+
     java.util.List<java.util.Map<String, Object>> getAnalyticsTrends();
 
     java.util.List<java.util.Map<String, Object>> getTopUsers();

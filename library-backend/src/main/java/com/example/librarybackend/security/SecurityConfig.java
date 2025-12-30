@@ -35,6 +35,7 @@ public class SecurityConfig {
                 .cors().and()
                 .authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/books/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()

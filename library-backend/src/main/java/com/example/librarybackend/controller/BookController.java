@@ -20,6 +20,21 @@ public class BookController {
         return libraryService.getAllBooks();
     }
 
+    @GetMapping("/search")
+    public List<Book> searchBooks(@RequestParam(required = false) String query) {
+        return libraryService.searchBooks(query);
+    }
+
+    @GetMapping("/recommendations/{userId}")
+    public List<Book> getRecommendations(@PathVariable Long userId) {
+        return libraryService.getRecommendations(userId);
+    }
+
+    @GetMapping("/random")
+    public Book getRandomBook(@RequestParam(required = false) String mood) {
+        return libraryService.getRandomBookByGenre(mood);
+    }
+
     @PostMapping
     public Book addBook(@RequestBody Book book) {
         return libraryService.addBook(book);
