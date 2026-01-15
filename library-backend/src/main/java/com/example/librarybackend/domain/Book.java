@@ -1,15 +1,20 @@
 package com.example.librarybackend.domain;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.*;
+import java.util.UUID;
 
-@Document(collection = "books")
+@Entity
+@Table(name = "books")
 public class Book {
     @Id
     private String id;
+
     private String title;
     private String author;
+
+    @Column(unique = true)
     private String isbn;
+
     private int totalCopies;
     private int availableCopies;
     private String genre;
@@ -17,7 +22,15 @@ public class Book {
 
     // Additional metadata
     private String coverImage;
+    @Column(length = 2000)
     private String description;
+
+    @PrePersist
+    public void generateId() {
+        if (this.id == null) {
+            this.id = UUID.randomUUID().toString();
+        }
+    }
 
     public Book() {
     }
