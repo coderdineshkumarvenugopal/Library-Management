@@ -29,7 +29,7 @@ const Home = () => {
   // Hooks
   const userId = user?.id || 0;
   const { data: allBooks, isLoading: loadingBooks } = useBooks();
-  const { data: searchResults, isLoading: loadingSearch } = useSearchBooks(debouncedSearch);
+  const { data: searchResults } = useSearchBooks(debouncedSearch);
   const { data: borrowedBooks, isLoading: loadingBorrowed } = useBorrowedBooks(userId);
   const borrowMutation = useBorrowBook();
   const returnMutation = useReturnBook();
